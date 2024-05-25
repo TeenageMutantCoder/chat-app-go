@@ -1,0 +1,18 @@
+{{define "title"}}Chat{{end}}
+{{define "body"}}
+  <h1>Chat</h1>
+
+  {{block "messages" .}}
+    <ul id="messages" hx-get="/messages" hx-trigger="every 2s" hx-swap="outerHTML">
+      {{range .}}
+      <li>{{.Content}}</li>
+      {{end}}
+    </ul>
+  {{end}}
+
+  <form hx-post="/messages" hx-swap="outerHTML" hx-target="#messages" hx-on::after-request="if(event.detail.successful) this.reset()">
+    <input name="message" />
+    <button type="submit">Send</button>
+  </form>
+{{end}}
+

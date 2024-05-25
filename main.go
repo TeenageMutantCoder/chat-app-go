@@ -1,99 +1,45 @@
 package main
 
 import (
-	"bytes"
-	"log"
-	"net"
+	"html/template"
+	"net/http"
 )
 
 const (
-	incompleteMessageError = "Failed to send entire payload"
+	PORT = "8080"
 )
 
+type Message struct {
+	Content string
+}
+
 func main() {
-	network := "tcp"
-	port := ":8080"
-	ln, err := net.Listen(network, port)
+	messages := []Message{{"hi"}, {"hello"}, {"yo"}}
+	chatTemplate := template.Must(template.ParseFiles("templates/base.go.html", "templates/chat.go.html"))
 
-	if err != nil {
-		log.Fatal("Failed to open", network, "connection at port", port)
-	}
-
-	log.Print("Listening on port", port)
-
-	for {
-		conn, err := ln.Accept()
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		err := chatTemplate.Execute(w, messages)
 		if err != nil {
-			log.Fatal("Failed to accept connection")
+			panic(err)
 		}
-		go handleConnection(conn)
-	}
-}
+	})
 
-func handleConnection(conn net.Conn) {
-	msg := []byte("Successfully connected.\n")
-	n, err := conn.Write(msg)
+	http.HandleFunc("/messages", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			message := r.PostFormValue("message")
+			if message == "" {
+				http.Error(w, "message is empty", http.StatusBadRequest)
+				return
+			}
 
-	if err != nil {
-		log.Fatal("Failed to write to connection")
-	}
-	if n < len(msg) {
-		log.Fatal(incompleteMessageError)
-	}
-
-	maximumMessageLength := 256
-	bytes := make([]byte, maximumMessageLength)
-	for {
-		if conn == nil {
-			log.Print("Connection is nil")
-			break
+			messages = append(messages, Message{message})
 		}
 
-		n, err = conn.Read(bytes)
-
-		if n > maximumMessageLength {
-			log.Fatal("Message too long")
-		}
+		err := chatTemplate.ExecuteTemplate(w, "messages", messages)
 		if err != nil {
-			log.Fatal("Failed to read from connection")
+			panic(err)
 		}
+	})
 
-		msg = bytes[:n]
-		log.Print("Received message: ", string(msg))
-
-		cmd, msgWithoutCmd := parseMessage(msg)
-		err = cmd.execute(conn, msgWithoutCmd)
-
-		if err != nil {
-			log.Fatal("Failed to execute command", cmd, msg)
-			conn.Close()
-		}
-	}
-}
-
-func parseMessage(msg []byte) (Command, []byte) {
-	indexOfFirstSpace := bytes.Index(msg, []byte(" "))
-
-	var possibleCommand string
-	if indexOfFirstSpace == -1 {
-		possibleCommand = string(bytes.TrimRight(msg, "\n"))
-	} else {
-		possibleCommand = string(msg[:indexOfFirstSpace])
-	}
-
-	var remainingMessage []byte
-	if indexOfFirstSpace == -1 {
-		remainingMessage = []byte{}
-	} else {
-		remainingMessage = bytes.TrimLeft(msg[indexOfFirstSpace:], " ")
-	}
-
-	switch possibleCommand {
-	case "send":
-		return SendCommand{}, remainingMessage
-	case "close":
-		return CloseCommand{}, remainingMessage
-	default:
-		return InvalidCommand{}, remainingMessage
-	}
+	http.ListenAndServe(":"+PORT, nil)
 }
