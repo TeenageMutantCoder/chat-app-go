@@ -6,16 +6,25 @@ import (
 )
 
 const (
-	PORT = "8080"
+	PORT                        = "8080"
+	STARTING_TEMPLATE_DIRECTORY = "templates/"
+	TEMPLATE_FILE_TYPE          = ".gohtml"
 )
 
 type Message struct {
 	Content string
 }
 
+func ParseFiles(filenames ...string) (*template.Template, error) {
+	for index := range filenames {
+		filenames[index] = STARTING_TEMPLATE_DIRECTORY + filenames[index] + TEMPLATE_FILE_TYPE
+	}
+	return template.ParseFiles(filenames...)
+}
+
 func main() {
 	messages := []Message{{"hi"}, {"hello"}, {"yo"}}
-	chatTemplate := template.Must(template.ParseFiles("templates/base.gohtml", "templates/chat.gohtml"))
+	chatTemplate := template.Must(ParseFiles("base", "chat"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := chatTemplate.Execute(w, messages)
