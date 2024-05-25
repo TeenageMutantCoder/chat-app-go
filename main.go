@@ -15,7 +15,7 @@ type Message struct {
 
 func main() {
 	messages := []Message{{"hi"}, {"hello"}, {"yo"}}
-	chatTemplate := template.Must(template.ParseFiles("templates/base.go.html", "templates/chat.go.html"))
+	chatTemplate := template.Must(template.ParseFiles("templates/base.gohtml", "templates/chat.gohtml"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := chatTemplate.Execute(w, messages)
