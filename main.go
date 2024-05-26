@@ -1,30 +1,21 @@
 package main
 
 import (
-	"html/template"
 	"net/http"
 )
 
 const (
-	PORT                        = "8080"
-	STARTING_TEMPLATE_DIRECTORY = "templates/"
-	TEMPLATE_FILE_TYPE          = ".gohtml"
+	Port = "8080"
 )
 
 type Message struct {
 	Content string
 }
 
-func ParseFiles(filenames ...string) (*template.Template, error) {
-	for index := range filenames {
-		filenames[index] = STARTING_TEMPLATE_DIRECTORY + filenames[index] + TEMPLATE_FILE_TYPE
-	}
-	return template.ParseFiles(filenames...)
-}
-
 func main() {
 	messages := []Message{{"hi"}, {"hello"}, {"yo"}}
-	chatTemplate := template.Must(ParseFiles("base", "chat"))
+
+	http.Handle("/static/", http.FileServer(http.FS(staticFiles)))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := chatTemplate.Execute(w, messages)
@@ -50,5 +41,5 @@ func main() {
 		}
 	})
 
-	http.ListenAndServe(":"+PORT, nil)
+	http.ListenAndServe(":"+Port, nil)
 }

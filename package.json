@@ -1,0 +1,19 @@
+{
+  "name": "chat-app-go",
+  "version": "1.0.0",
+  "description": "A chat app written in go",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -e go,go.html --signal SIGTERM --exec go run .",
+    "tw:build": "tailwindcss build -o static/css/tailwind.css",
+    "tw:watch": "tailwindcss build -o static/css/tailwind.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3"
+  }
+}
