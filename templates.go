@@ -5,7 +5,7 @@ import (
 	"html/template"
 )
 
-//go:generate npm run build
+//go:generate npm run tw:build
 
 const (
 	StartingTemplateDirectory = "templates/"
