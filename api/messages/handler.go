@@ -38,7 +38,7 @@ func Post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resources.AddMessage(message, author.Value)
+	resources.CreateMessage(message, author.Value)
 
 	data := templateData{resources.GetMessages(), author.Value}
 	err = templates.ChatTemplate.ExecuteTemplate(w, "messages", data)

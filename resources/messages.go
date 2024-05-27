@@ -11,6 +11,6 @@ func GetMessages() []Message {
 	return messages
 }
 
-func AddMessage(content string, author string) {
+func CreateMessage(content string, author string) {
 	messages = append(messages, Message{Content: content, Author: author})
 }
