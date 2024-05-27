@@ -1,0 +1,37 @@
+{{ define "title" }}Choose a nickname{{ end }}
+
+{{ define "body" }}
+  <style>
+    html,
+    body {
+      background: #cffafe; /* cyan-100 */
+      display: flex;
+      flex: 1;
+      height: 100%;
+      align-content: center;
+    }
+  </style>
+
+  <main
+    class="mx-auto my-5 flex w-11/12 max-w-screen-md flex-col rounded-xl bg-cyan-300 md:w-3/4"
+  >
+    <h1 class="mb-2 p-2 text-center text-4xl font-semibold">
+      Choose a nickname
+    </h1>
+
+    <form
+      class="mt-3 flex w-full space-x-2 rounded-b-xl bg-cyan-600 px-2 py-4"
+      action="/"
+      method="post"
+      hx-boost="true"
+    >
+      <input class="flex-1 p-1" name="name" placeholder="Enter a nickname..." />
+      <button
+        type="submit"
+        class="rounded border-2 border-white bg-cyan-900 px-2 py-1 font-semibold text-white"
+      >
+        Confirm
+      </button>
+    </form>
+  </main>
+{{ end }}

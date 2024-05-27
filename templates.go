@@ -15,7 +15,10 @@ const (
 //go:embed static
 var staticFiles embed.FS
 
-var chatTemplate = template.Must(ParseFiles("base", "chat"))
+var (
+	chatTemplate          = template.Must(ParseFiles("base", "chat"))
+	nameSelectionTemplate = template.Must(ParseFiles("base", "name_selection"))
+)
 
 func ParseFiles(filenames ...string) (*template.Template, error) {
 	for index := range filenames {

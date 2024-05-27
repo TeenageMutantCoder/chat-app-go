@@ -22,8 +22,25 @@
       hx-trigger="every 2s"
     >
       {{ block "messages" . }}
-        {{ range . }}
-          <li class="bg-white p-2">{{ .Content }}</li>
+        {{ $name := .Name }}
+        {{ range .Messages }}
+          {{ $isAuthor := eq .Author $name }}
+          <li
+            class="{{ if $isAuthor }}
+              bg-cyan-200 font-semibold
+            {{ else }}
+              bg-white
+            {{ end }} p-2"
+          >
+            <div>{{ .Content }}</div>
+            <span class="text-xs text-slate-800">
+              {{ if $isAuthor }}
+                Me ({{ .Author }})
+              {{ else }}
+                {{ .Author }}
+              {{ end }}
+            </span>
+          </li>
         {{ end }}
       {{ end }}
     </ul>
@@ -38,6 +55,7 @@
         class="flex-1 p-1"
         name="message"
         placeholder="Enter a message..."
+        autocomplete="off"
       />
       <button
         type="submit"
