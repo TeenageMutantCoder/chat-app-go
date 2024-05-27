@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -e go,go.html --signal SIGTERM --exec go run .",
-    "tw:build": "tailwindcss build -o static/css/tailwind.css",
-    "tw:watch": "tailwindcss build -o static/css/tailwind.css --watch"
+    "tw:build": "tailwindcss build -o templates/static/css/tailwind.css",
+    "tw:watch": "tailwindcss build -o templates/static/css/tailwind.css --watch"
   },
   "author": "",
   "license": "ISC",

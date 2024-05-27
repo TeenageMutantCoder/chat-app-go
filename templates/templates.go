@@ -1,4 +1,4 @@
-package main
+package templates
 
 import (
 	"embed"
@@ -13,11 +13,11 @@ const (
 )
 
 //go:embed static
-var staticFiles embed.FS
+var StaticFiles embed.FS
 
 var (
-	chatTemplate          = template.Must(ParseFiles("base", "chat"))
-	nameSelectionTemplate = template.Must(ParseFiles("base", "name_selection"))
+	ChatTemplate          = template.Must(ParseFiles("base", "chat"))
+	NameSelectionTemplate = template.Must(ParseFiles("base", "name_selection"))
 )
 
 func ParseFiles(filenames ...string) (*template.Template, error) {
