@@ -13,11 +13,11 @@ func Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	type Data struct {
+	type templateData struct {
 		Messages []resources.Message
 		Name     string
 	}
-	data := Data{resources.GetMessages(), name.Value}
+	data := templateData{resources.GetMessages(), name.Value}
 	err = templates.ChatTemplate.Execute(w, data)
 	if err != nil {
 		panic(err)
