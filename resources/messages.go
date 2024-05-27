@@ -5,7 +5,7 @@ type Message struct {
 	Author  string
 }
 
-var messages = []Message{{"hi", "test1"}, {"hello", "test2"}, {"yo", "test1"}}
+var messages = []Message{}
 
 func GetMessages() []Message {
 	return messages

@@ -14,7 +14,11 @@
   <main
     class="mx-auto my-5 flex w-11/12 max-w-screen-md flex-col rounded-xl bg-cyan-300 md:w-3/4"
   >
-    <h1 class="mb-2 p-2 text-center text-4xl font-semibold">Chat</h1>
+    <h1
+      class="mb-2 rounded-t-xl bg-cyan-900 p-2 text-center text-4xl font-semibold text-white"
+    >
+      Chat
+    </h1>
     <ul
       class="flex-1 space-y-2 overflow-y-auto px-2"
       id="messages"
@@ -29,7 +33,7 @@
             class="{{ if $isAuthor }}
               bg-cyan-200 font-semibold
             {{ else }}
-              bg-white
+              bg-cyan-100
             {{ end }} p-2"
           >
             <div>{{ .Content }}</div>
@@ -41,6 +45,8 @@
               {{ end }}
             </span>
           </li>
+        {{ else }}
+          <div class="text-center text-xl">No messages yet.</div>
         {{ end }}
       {{ end }}
     </ul>
