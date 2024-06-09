@@ -34,6 +34,7 @@ Steps for development:
 
 ## Ideas for future development (not in any particular order)
 
+- [x] Make this a PWA
 - [ ] Store messages and users in a database (or don't, if a more privacy-focused app)
 - [ ] Use websockets instead of polling to retrieve new messages
 - [ ] Add ability to create/join/remove different chat rooms
